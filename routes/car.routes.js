@@ -2,7 +2,6 @@ const express = require('express')
 const auth = require('../middleware/auth.middleware')
 const {serverError} = require("../utils/helpers");
 const Car = require('../models/Car')
-const User = require("../models/User");
 const router = express.Router({
     mergeParams: true
 })

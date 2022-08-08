@@ -6,7 +6,7 @@ const schema = new Schema({
     cost: {type: Number, required: true},
     serviceDate: {type: Date, required: true},
     currentMileage: {type: Number, required: true},
-    autoId: {type: Schema.Types.ObjectId, ref: 'Car', required: true},
+    carId: {type: Schema.Types.ObjectId, ref: 'Car', required: true},
 }, {
     timestamps: {createdAt: 'created_at'},
     // данные понадобятся на фронтенде, поэтому для удобства переименован
