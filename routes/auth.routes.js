@@ -2,7 +2,7 @@ const express = require('express')
 const bcrypt = require('bcryptjs')
 const {check, validationResult} = require('express-validator')
 const User = require('../models/User')
-const {generateUserData} = require("../utils/helpers");
+const {generateUserData, serverError} = require("../utils/helpers");
 const tokenService = require('../services/token.service')
 const router = express.Router({
     mergeParams: true
@@ -51,9 +51,7 @@ router.post('/signUp', [
             res.status(201).send({...tokens, userId: newUser._id})
             
         } catch (e) {
-            res.status(500).json({
-                message: 'На сервере произошла ошибка'
-            })
+            serverError(500)
         }
     }
 ])
@@ -102,9 +100,7 @@ router.post('/signInWithPassword', [
             await tokenService.save(existingUser._id, tokens.refreshToken)
             res.status(200).send({...tokens, userId: existingUser._id})
         } catch (e) {
-            res.status(500).json({
-                message: 'На сервере произошла ошибка'
-            })
+            serverError(500)
         }
     }
 ])
@@ -131,9 +127,7 @@ router.post('/token', [
             
             res.status(200).send({...tokens, userId: data._id})
         } catch (e) {
-            res.status(500).json({
-                message: 'На сервере произошла ошибка'
-            })
+            serverError(500)
         }
     }
 ])

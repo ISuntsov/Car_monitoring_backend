@@ -10,7 +10,14 @@ function generateUserData() {
     }
 }
 
+function serverError($e){
+    res.status($e).json({
+        message: 'На сервере произошла ошибка'
+    })
+}
+
 module.exports = {
     generateUserData,
-    getRandomInt
+    getRandomInt,
+    serverError
 }
