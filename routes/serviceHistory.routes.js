@@ -21,8 +21,7 @@ router
     .post(auth, async (req, res) => {
         try {
             const newServiceNote = await ServiceHistory.create({
-                ...req.body,
-                carId: req.car._id
+                ...req.body
             })
             res.status(201).send(newServiceNote)
         } catch (e) {
@@ -36,12 +35,12 @@ router.delete('/:serviceHistoryId',
         try {
             const {serviceHistoryId} = req.params
             const removedNote = await ServiceHistory.findById(serviceHistoryId)
-            if (removedNote.carId.toString() === req.car._id) {
-                await removedNote.remove()
-                return res.send(null)
-            } else {
-                return res.status(401).json({message: 'Unauthorized'})
-            }
+            // if (removedNote.carId.toString() === req.car._id) {
+            await removedNote.remove()
+            return res.send(null)
+            // } else {
+            //     return res.status(401).json({message: 'Unauthorized'})
+            // }
         } catch (e) {
             serverError(500)
         }
