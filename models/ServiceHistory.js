@@ -1,7 +1,7 @@
 const {Schema, model} = require("mongoose");
 
 const schema = new Schema({
-    autoPart: {type: Schema.Types.ObjectId, ref: 'AutoParts', required: true},
+    autoPart: {type: Schema.Types.ObjectId, ref: 'AutoPart', required: true},
     quantity: {type: Number, required: true},
     cost: {type: Number, required: true},
     serviceDate: {type: Date, required: true},

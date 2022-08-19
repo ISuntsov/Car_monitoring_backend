@@ -2,6 +2,8 @@ const express = require('express')
 const auth = require('../middleware/auth.middleware')
 const {serverError} = require("../utils/helpers");
 const FuelingHistory = require('../models/FuelingHistory')
+const chalk = require("chalk");
+const Car = require("../models/Car");
 const router = express.Router({
     mergeParams: true
 })
@@ -21,27 +23,32 @@ router
     .post(auth, async (req, res) => {
         try {
             const newFuelingNote = await FuelingHistory.create({
-                ...req.body,
-                carId: req.car._id
+                ...req.body
             })
             res.status(201).send(newFuelingNote)
         } catch (e) {
             serverError(500)
         }
     })
+
+router
+    .route('/:fuelingHistoryId')
+    .patch(auth, async (req, res) => {
+        try {
+            const {fuelingHistoryId} = req.params
+            const updatedNote = await FuelingHistory.findByIdAndUpdate(fuelingHistoryId, req.body, {new: true})
+            res.send(updatedNote)
+        } catch (e) {
+            serverError(500)
+        }
+    })
     
-router.delete('/:fuelingHistoryId',
-    auth,
-    async (req, res) => {
+    .delete(auth, async (req, res) => {
         try {
             const {fuelingHistoryId} = req.params
             const removedNote = await FuelingHistory.findById(fuelingHistoryId)
-            if (removedNote.carId.toString() === req.car._id) {
-                await removedNote.remove()
-                return res.send(null)
-            } else {
-                return res.status(401).json({message: 'Unauthorized'})
-            }
+            await removedNote.remove()
+            return res.send(null)
         } catch (e) {
             serverError(500)
         }

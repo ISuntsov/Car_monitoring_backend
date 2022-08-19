@@ -8,7 +8,7 @@ const schema = new Schema({
     year: Date,
     fuelType: {type: Schema.Types.ObjectId, ref: 'FuelTypes', required: true},
     fuelTankCapacity: Number,
-    mileage: Number,
+    mileage: {type: Number, required: true},
     autoParts: [{type: Schema.Types.ObjectId, ref: 'AutoParts'}],
 }, {
     timestamps: true
