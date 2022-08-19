@@ -11,8 +11,8 @@ router
     .route('/')
     .get(auth, async (req, res) => {
         try {
-            // const {orderBy, equalTo} = req.query
-            const list = await Car.find(/*{[orderBy]: equalTo}*/)
+            const {orderBy, equalTo} = req.query
+            const list = await Car.find({[orderBy]: equalTo})
             res.send(list)
         } catch (e) {
             serverError(500)
